@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Спасибо вам, что вы с нами, количество постов за неделю: {{ post_c }}</h1>
+    {% for post in post_orm %}
+        <br><a href="http://127.0.0.1:8000{% url 'post_detail' post.pk %}">{{ post.title_post }}</a>: {{ post.text_post }}
+    {% endfor %}
+</body>
+</html>

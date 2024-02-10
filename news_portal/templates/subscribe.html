@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <form action="{% url 'subscribe' %}" method="POST">
+        {% csrf_token %}
+        {% for category in categories %}
+            {{ category.pk }} - {{ category.name_category }}
+            <br>
+        {% endfor %}
+        <input id="category" type="number" min="1" max="5" name="category"><br>
+        <label for="category">Выберите номер категории</label><br>
+        <input type="submit">
+    </form>
+{% endblock content %}

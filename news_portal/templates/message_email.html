@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{ user }} Спасибо за подписку!</h2>
+    <p> Ваша новость "{{ post.title_post }}" с содержимым: <a href="http://127.0.0.1:8000{% url 'post_detail' pk_post %}">"{{ post.text_post|truncatechars:50 }}"</a></p>
+</body>
+</html>
