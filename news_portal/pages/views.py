@@ -6,10 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from models_portal.models import Post, Category, Subscribes, Author, StaffUser
 
 from .filters import PostFilter
@@ -17,10 +14,7 @@ from .forms import PostForm
 
 from datetime import datetime, date
 
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from .tasks import email_sending
 
 
 class NewsList(ListView):
@@ -84,17 +78,7 @@ class NewCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
         post.save()
 
-        html_content = render_to_string('message_email.html', {'post': post, 'pk_post': Post.objects.count()})
-
-        for category in Subscribes.objects.all():
-            if category.category in form.cleaned_data.get('post_category_category'):
-                for user in User.objects.all():
-                    if user == category.user:
-                        msg = EmailMultiAlternatives(subject=post.title_post,
-                                                     from_email=os.getenv('DEFAULT_FROM_EMAIL'),
-                                                     to=[user.email])
-                        msg.attach_alternative(html_content, 'text/html')
-                        msg.send()
+        email_sending(post, form)
 
         return super().form_valid(form)
 
