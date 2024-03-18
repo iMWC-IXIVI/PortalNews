@@ -11,14 +11,14 @@ News
     <h1 align="center">Список новостей {{ time_now|date:'d.m.y-h:m:s' }}</h1>
     <table cellpadding="10" align="center">
         <tr>
-            <td width="10%"><p style="font-size: 20px">Уникальный номер</p></td>
+            <td width="10%"><p style="font-size: 20px">Переход на новую страницу</p></td>
             <td width="10%"><p style="font-size: 20px">Заголовок</p></td>
             <td width="15%"><p style="font-size: 20px">Время</p></td>
             <td width="50%"><p style="font-size: 20px">Содержание</p></td>
         </tr>
         {% for post in all_posts %}
         <tr>
-            <td><a href=" {{post.pk}} ">{{ post.pk }}</a></td>
+            <td><a href=" {{post.pk}} "><button type="button">Отдельная страница</button></a></td>
             <td>{{ post.title_post }}</td>
             <td>{{ post.creation_time_post }}</td>
             <td>{{ post.text_post|truncatechars:320|censor }}</td>

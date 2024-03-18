@@ -1,0 +1,5 @@
+[{"model": "models_portal.category", "pk": 1, "fields": {"name_category": "Информационная категория"}},
+  {"model": "models_portal.category", "pk": 2, "fields": {"name_category": "Категория по продажам"}},
+  {"model": "models_portal.category", "pk": 3, "fields": {"name_category": "Обучающая категория"}},
+  {"model": "models_portal.category", "pk": 4, "fields": {"name_category": "Вовлекающая категория"}},
+  {"model": "models_portal.category", "pk": 5, "fields": {"name_category": "Разрекательная категория"}}]
