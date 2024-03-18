@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import Group
 from models_portal.models import Post, Category, Subscribes, Author, StaffUser
+from django.contrib.auth.models import User
 
 from .filters import PostFilter
 from .forms import PostForm
@@ -15,6 +17,10 @@ from .forms import PostForm
 from datetime import datetime, date
 
 from .tasks import email_sending
+
+from django.core.cache import cache
+
+from django.core.mail import EmailMultiAlternatives
 
 
 class NewsList(ListView):
@@ -38,6 +44,15 @@ class NewsDetail(DetailView):
     template_name = 'post_detail.html'
     context_object_name = 'post'
     queryset = Post.objects.filter(user_choice=Post.new)
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 
 class NewsSearch(ListView):
